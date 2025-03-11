@@ -1,0 +1,23 @@
+{% if settings.gl_button_switch == false %}
+<button type="button" style="display: none !important;" >GEAR LAB</button>
+
+{% else %}
+
+<button type="button" style="display: block !important;" >GEAR LAB</button>
+
+{% endif %}
+
+{% schema %}
+{
+"name": "Gearlab button",
+"target": "section",
+"settings": [
+  {
+    "type": "checkbox",
+    "id": "gl_button_switch",
+    "label": "Enable or Disable Gearlab Button",
+    "default": true
+  }
+]
+}
+{% endschema %}

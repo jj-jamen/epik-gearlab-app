@@ -1,13 +1,14 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "ea089a82c4cebeb9e8dd390eabdf4f8b"
-application_url = "https://example.com/"
+application_url = "https://designed-alias-ghz-explaining.trycloudflare.com"
 embedded = true
 name = "epik-gearlab-app"
 handle = "epik-gearlab-app"
 
 [build]
 include_config_on_deploy = true
+automatically_update_urls_on_dev = true
 
 [webhooks]
 api_version = "2025-01"
@@ -25,7 +26,11 @@ api_version = "2025-01"
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://designed-alias-ghz-explaining.trycloudflare.com/auth/callback",
+  "https://designed-alias-ghz-explaining.trycloudflare.com/auth/shopify/callback",
+  "https://designed-alias-ghz-explaining.trycloudflare.com/api/auth/callback"
+]
 
 [pos]
 embedded = false
