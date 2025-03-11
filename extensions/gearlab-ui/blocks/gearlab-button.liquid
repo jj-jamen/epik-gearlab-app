@@ -1,23 +1,38 @@
-{% if settings.gl_button_switch == false %}
-<button type="button" style="display: none !important;" >GEAR LAB</button>
-
+{% if block.settings.gl_button_route_switch == true %}
+<button type="button --typeBasePrimary">GEAR LAB</button>
 {% else %}
-
-<button type="button" style="display: block !important;" >GEAR LAB</button>
-
+<button type="button --typeBasePrimary">GEAR LAB</button>
 {% endif %}
+
+<style>
+
+button {
+    min-height:50px;
+    border-left:0;
+    border-right:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background-color: #EAF40A;
+    width:100%;
+    margin-bottom: 10px;
+}
+
+</style>
 
 {% schema %}
 {
-"name": "Gearlab button",
+"name": "Gear Lab Button",
 "target": "section",
 "settings": [
   {
     "type": "checkbox",
-    "id": "gl_button_switch",
-    "label": "Enable or Disable Gearlab Button",
-    "default": true
-  }
+    "id": "gl_button_route_switch",
+    "label": "Limit Gear Lab to B2B customers only",
+    "info": "When enabled, non-B2B customers must sign in or register for a B2B account before they can proceed to checkout with their EPIK Gear Lab custom order.",
+    "default": false
+  },
 ]
 }
 {% endschema %}
