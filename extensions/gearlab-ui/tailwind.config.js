@@ -2,7 +2,14 @@
 module.exports = {
   content: ["./**/*.liquid", "./**/*.json", "./**/*.js"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "epik-yellow": "#eaf40a",
+      },
+      borderWidth: {
+        1: "1px",
+      },
+    },
   },
   plugins: [],
 };
