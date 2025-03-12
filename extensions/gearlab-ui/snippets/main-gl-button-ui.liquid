@@ -1,0 +1,10 @@
+{{ 'tw-output.css' | asset_url | stylesheet_tag }}
+{{ 'gl-button.css' | asset_url | stylesheet_tag }}
+
+<h1>TW TEST :D</h1>
+
+<button id="gear-lab-button" type="button" class="btn btn--full gl_button">
+    <span>
+        {{ block.settings.gl_button_title }}
+    </span>
+</button>
