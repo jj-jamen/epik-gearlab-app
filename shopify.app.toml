@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "ea089a82c4cebeb9e8dd390eabdf4f8b"
-application_url = "https://oils-through-optimization-barely.trycloudflare.com"
+application_url = "https://rights-surveillance-poet-outstanding.trycloudflare.com"
 embedded = true
 name = "epik-gearlab-app"
 handle = "epik-gearlab-app"
@@ -27,9 +27,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://oils-through-optimization-barely.trycloudflare.com/auth/callback",
-  "https://oils-through-optimization-barely.trycloudflare.com/auth/shopify/callback",
-  "https://oils-through-optimization-barely.trycloudflare.com/api/auth/callback"
+  "https://rights-surveillance-poet-outstanding.trycloudflare.com/auth/callback",
+  "https://rights-surveillance-poet-outstanding.trycloudflare.com/auth/shopify/callback",
+  "https://rights-surveillance-poet-outstanding.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

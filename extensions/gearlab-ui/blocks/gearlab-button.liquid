@@ -1,13 +1,11 @@
-
 {{ 'tw-output.css' | asset_url | stylesheet_tag }}
 
-{% form 'product' %}
 <div id="gl-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
   <!-- Modal container -->
   <div class="bg-white w-[90vw] h-[85vh] shadow-xl flex flex-col">
     <!-- Modal header -->
     <div class="flex items-center justify-between p-4 border-b">
-      <h3 class="text-xl font-semibold text-gray-900">Gear Lab</h3>
+      <h2 class="text-2xl font-semibold text-gray-900">Gear Lab</h2>
       <button id="gl-modal-close" class="text-gray-400 hover:text-gray-500 focus:outline-none">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -16,12 +14,17 @@
     </div>
     <!-- Modal content (empty) -->
     <div class="flex-1 p-6 overflow-y-auto">
-     
+
+    <h2 id="modal-title"></h2>
+    <h2 id="modal-price"></h2>
+    <div class="image-container relative w-full">
     <img id="modal-image" 
-     src="{{ product.featured_image | image_url: '500x' }}" 
-     alt="{{ product.title }}"
-     width="500"
-     height="500">
+       alt="Product Image" 
+       class="w-full object-contain max-h-64 rounded shadow-sm" 
+       loading="lazy"
+       width="600" 
+       height="400">
+    </div>
 
     </div>
     <!-- Modal footer -->
@@ -34,37 +37,40 @@
 </div>
 
 <button id="gl-button" type="button" class="btn btn--full mb-3 bg-epik-yellow border-1 border-black text-black"
-        data-product-handle="{{ product.handle }}"
-        data-product-id="{{ product.id }}"
-        data-product-title="{{ product.title }}"
-        data-product-price="{{ product.variants[0].price }}"
-        data-product-image="{{ product.featured_image.src }}">  
+        data-product-handle="{{ product.handle }}">  
     <span>
-        {{ block.settings.gl_button_title }}
+        {{ section.settings.gl_button_title }}
     </span>
 </button>
-{% endform %}
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("gl-button").addEventListener("click", function () {
-document.getElementById("gl-button").addEventListener("click", function () {
-        // Retrieve product data from button
-        const productId = this.dataset.productId;
-        const productHandle = this.dataset.productHandle;
-        const productTitle = this.dataset.productTitle;
-        const productPrice = this.dataset.productPrice;
-        const productImage = this.dataset.productImage;
-
-        // Populate the modal with product details
-        document.getElementById("modal-title").textContent = productTitle;
-        document.getElementById("modal-price").textContent = `$${productPrice}`;
-        document.getElementById("modal-image").src = productImage
-      });
-
-    // Open modal functionality  
-      document.getElementById("gl-modal").classList.remove("hidden");
-      document.getElementById("gl-modal").classList.add("flex");
+    document.getElementById("gl-button").addEventListener("click", function () {
+      // Get product handle for the request
+      const productHandle = this.dataset.productHandle;
+      
+      // Make GET request to Shopify's Product API
+      fetch(`/products/${productHandle}.js`)
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
+        .then(product => {
+          console.log("Product data:", product);
+          
+          // Populate modal with fetched product details
+          document.getElementById("modal-title").textContent = product.title;
+          document.getElementById("modal-price").textContent = `$${(product.price/100).toFixed(2)}`;
+          document.getElementById("modal-image").src = product.featured_image && product.featured_image.indexOf('//') === 0 
+          ? `https:${product.featured_image}` 
+          : product.featured_image;
+          // Open modal
+          document.getElementById("gl-modal").classList.remove("hidden");
+          document.getElementById("gl-modal").classList.add("flex");
+        })
+        .catch(error => {
+          console.error("Error fetching product data:", error);
+        });
     });
 
     // Close modal functionality
