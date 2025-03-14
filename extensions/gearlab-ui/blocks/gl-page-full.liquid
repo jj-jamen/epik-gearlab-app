@@ -1,0 +1,63 @@
+{{ 'tw-output.css' | asset_url | stylesheet_tag }}
+
+{% if block.settings.access_switch == true %}
+    {% if customer and customer.b2b? %}
+
+{% paginate collections['gearlab'].products by 20 %}
+  <input type="text" id="product_input" class="w-full flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" placeholder="Enter product SKU">
+  <button type="button" id="fetch_product" class="mt-2 bg-blue-500 text-white py-1 px-3 rounded">Fetch Product</button>
+{% endpaginate %}
+
+    {% elsif customer and customer.b2b? == false %}
+    <h1>You are logged in but you are not using a b2b account, only b2b customers can use this page</h1>
+    {% else %}
+    <h1>TO use this page please login using your b2b account</h1>
+    {% endif %}    
+{% else %}    
+<h1>All customers can access this page</h1>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectElement = document.getElementById('product_select');
+    selectElement.addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      const selectedProductHandle = selectedOption.dataset.productHandle;
+      if (selectedProductHandle) {
+        fetch(`/products/${selectedProductHandle}.js`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(product => {
+            console.log(product);
+            // Perform actions with the product data
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+      } else {
+        console.error('Selected option does not have a product handle.');
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+"name": "Gear Lab",
+"target": "section",
+"settings":
+    [
+    {
+      "type": "checkbox",
+      "id": "access_switch",
+      "label": "Allow all users to access this page?",
+      "info": "If enabled, all users will be able to access this page. If disabled, only B2B users will be able to access this page.",
+      "default": true
+    },
+    ],
+}
+{% endschema %}
